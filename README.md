@@ -55,6 +55,57 @@ to add a `load` function to the `ast` module directly:
 >>> import ast
 >>> tree = ast.parse('print(2 + 2)')
 >>> copy_tree = ast.load(ast.dump(tree))
->>> print(ast.unparse(copy_tree))
-print(2 + 2)
+>>> ast.unparse(copy_tree)
+'print(2 + 2)'
+```
+
+### `astpretty` support
+
+`astload` supports `astpretty` output also:
+
+```pycon
+>>> ast_string = astpretty.pformat(ast.parse('1 == 2'))
+>>> print(ast_string)
+Module(
+    body=[
+        Expr(
+            lineno=1,
+            col_offset=0,
+            end_lineno=1,
+            end_col_offset=6,
+            value=Compare(
+                lineno=1,
+                col_offset=0,
+                end_lineno=1,
+                end_col_offset=6,
+                left=Constant(lineno=1, col_offset=0, end_lineno=1, end_col_offset=1, value=1, kind=None),
+                ops=[Eq()],
+                comparators=[Constant(lineno=1, col_offset=5, end_lineno=1, end_col_offset=6, value=2, kind=None)],
+            ),
+        ),
+    ],
+    type_ignores=[],
+)
+>>> tree = astload.load(ast_string)
+>>> astpretty.pprint(tree)
+Module(
+    body=[
+        Expr(
+            lineno=1,
+            col_offset=0,
+            end_lineno=1,
+            end_col_offset=6,
+            value=Compare(
+                lineno=1,
+                col_offset=0,
+                end_lineno=1,
+                end_col_offset=6,
+                left=Constant(lineno=1, col_offset=0, end_lineno=1, end_col_offset=1, value=1, kind=None),
+                ops=[Eq()],
+                comparators=[Constant(lineno=1, col_offset=5, end_lineno=1, end_col_offset=6, value=2, kind=None)],
+            ),
+        ),
+    ],
+    type_ignores=[],
+)
 ```
